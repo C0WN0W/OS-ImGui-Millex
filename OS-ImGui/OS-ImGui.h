@@ -1,6 +1,5 @@
 #pragma once
 #include "OS-ImGui_External.h"
-#include "OS-ImGui_Internal.h"
 
 /****************************************************
 * Copyright (C)	: Liv

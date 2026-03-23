@@ -1,13 +1,17 @@
 #include "OS-ImGui_Base.h"
+#include "imgui/font.h"
+#include "imgui/image.h"
 
-/****************************************************
-* Copyright (C)	: Liv
-* @file			: OS-ImGui_Base.cpp
-* @author		: Liv
-* @email		: 1319923129@qq.com
-* @version		: 1.1
-* @date			: 2024/4/4 13:59
-****************************************************/
+namespace texture {
+    ID3D11ShaderResourceView* preview_slow = nullptr;
+}
+
+namespace font {
+    ImFont* icomoon_logo = nullptr;
+    ImFont* icomoon_page = nullptr;
+    ImFont* inter_semibold = nullptr;
+    ImFont* icon_notify = nullptr;
+}
 
 namespace OSImGui
 {
@@ -15,8 +19,20 @@ namespace OSImGui
     {
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
+        ImFontConfig cfg = {};
+
+        cfg.FontBuilderFlags = ImGuiFreeTypeBuilderFlags_ForceAutoHint | ImGuiFreeTypeBuilderFlags_LightHinting | ImGuiFreeTypeBuilderFlags_LoadColor;
+        font::inter_semibold = io.Fonts->AddFontFromMemoryTTF(Fonts::inter_semibold, sizeof(Fonts::inter_semibold), 15.f, &cfg, io.Fonts->GetGlyphRangesChineseFull());
+        font::icomoon_page = io.Fonts->AddFontFromMemoryTTF(Fonts::icomoon_page, sizeof(Fonts::icomoon_page), 17.f, &cfg, io.Fonts->GetGlyphRangesChineseFull());
+        font::icomoon_logo = io.Fonts->AddFontFromMemoryTTF(Fonts::icomoon_page, sizeof(Fonts::icomoon_page), 30.f, &cfg, io.Fonts->GetGlyphRangesChineseFull());
+        font::icon_notify = io.Fonts->AddFontFromMemoryTTF(Fonts::icon_notify, sizeof(Fonts::icon_notify), 17.f, &cfg, io.Fonts->GetGlyphRangesChineseFull());
 
         ImGui::StyleColorsDark();
+
+        D3DX11_IMAGE_LOAD_INFO info; ID3DX11ThreadPump* pump{ nullptr };
+        if (texture::preview_slow == nullptr)
+            D3DX11CreateShaderResourceViewFromMemory(device, preview_slow, sizeof(preview_slow), &info, pump, &texture::preview_slow, 0);
+        
         io.LogFilename = nullptr;
 
         if (!ImGui_ImplWin32_Init(Window.hWnd))

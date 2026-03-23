@@ -9,14 +9,18 @@
 #include <dwmapi.h>
 #pragma comment(lib,"dwmapi.lib")
 
-/****************************************************
-* Copyright (C)	: Liv
-* @file			: OS-ImGui_Base.h
-* @author		: Liv
-* @email		: 1319923129@qq.com
-* @version		: 1.1
-* @date			: 2024/4/4 13:59
-****************************************************/
+namespace texture
+{
+	extern ID3D11ShaderResourceView* preview_slow;
+}
+
+namespace font
+{
+	extern ImFont* icomoon_logo;
+	extern ImFont* icomoon_page;
+	extern ImFont* inter_semibold;
+	extern ImFont* icon_notify;
+}
 
 namespace OSImGui
 {
